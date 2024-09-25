@@ -29,18 +29,32 @@ public class ProductViewController {
     public String listProducts(Model model) {
         List<Product> products = productService.findAll();
         model.addAttribute("products", products);
-        return "list"; 
+        return "list";
     }
 
     @GetMapping("/{id}")
     public String viewProduct(@PathVariable Long id, Model model) {
         Product product = productService.findById(id);
         if (product == null) {
-            return "error/404"; 
+            return "error/404";
         }
         model.addAttribute("product", product);
-        return "view"; 
+        return "view";
+    }
+
+    @GetMapping("/new")
+    public String createProductForm(Model model) {
+        model.addAttribute("product", new Product());
+        return "form";  // Vista para crear producto
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editProductForm(@PathVariable Long id, Model model) {
+        Product product = productService.findById(id);
+        if (product == null) {
+            return "error/404";
+        }
+        model.addAttribute("product", product);
+        return "form";  // Vista para editar producto
     }
 }
-
-
